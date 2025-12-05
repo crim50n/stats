@@ -155,12 +155,17 @@
             const savedToken = localStorage.getItem('gh_stats_token');
             const savedLang = localStorage.getItem('gh_stats_lang');
 
-            // Handle URL parameters (e.g. ?repo=owner/repo)
+            // Handle URL parameters ?u=user&r=repo
             const urlParams = new URLSearchParams(window.location.search);
-            const repoFromUrl = urlParams.get('repo');
+            const userParam = urlParams.get('u');
+            const repoParam = urlParams.get('r');
 
-            if (repoFromUrl) {
-                document.getElementById('repoInput').value = repoFromUrl;
+            let repoToLoad = '';
+
+            if (userParam && repoParam) {
+                // Construct repo string from separate params
+                repoToLoad = `${userParam}/${repoParam}`;
+                document.getElementById('repoInput').value = repoToLoad;
             } else if (savedRepo) {
                 document.getElementById('repoInput').value = savedRepo;
             }
@@ -174,8 +179,8 @@
 
             applyLanguage();
 
-            // Auto-search if repo is provided in URL
-            if (repoFromUrl) {
+            // Auto-search if repo parameters provided in URL
+            if (repoToLoad) {
                 getStats();
             }
         });
@@ -241,17 +246,26 @@
             const repo = urlMatch ? urlMatch[1] : rawRepo;
 
             // Validate format (must contain exactly one slash)
-            if (!repo || repo.split('/').length !== 2) {
+            const parts = repo.split('/');
+            if (!repo || parts.length !== 2) {
                 showError(t.errFormat);
                 return;
             }
 
+            const owner = parts[0];
+            const name = parts[1];
+
             localStorage.setItem('gh_stats_repo', rawRepo); // Save what user typed
             localStorage.setItem('gh_stats_token', token);
 
-            // Update URL without reloading page (store just the clean repo name usually, but user input is fine too)
+            // Update URL without reloading page using new format: ?u=owner&r=repo
             const newUrl = new URL(window.location);
-            newUrl.searchParams.set('repo', repo);
+            // Clean up old 'repo' param if it existed
+            newUrl.searchParams.delete('repo');
+
+            // Set new params
+            newUrl.searchParams.set('u', owner);
+            newUrl.searchParams.set('r', name);
             window.history.pushState({}, '', newUrl);
 
             loader.classList.remove('hidden');
