@@ -10,47 +10,10 @@
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Стили для изменения ширины колонок */
-        .resizable-table th {
-            position: relative;
-            /* Защита от переполнения текста при сужении */
-            overflow: hidden; 
+        /* Table styles */
+        table th {
+            overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        /* Зона захвата */
-        .resizer {
-            position: absolute;
-            top: 0;
-            right: 0;
-            /* Делаем зону шире для пальцев (20px), но сдвигаем наполовину вправо */
-            width: 20px; 
-            transform: translateX(50%);
-            height: 100%;
-            cursor: col-resize;
-            user-select: none;
-            z-index: 10;
-            /* Прозрачный фон, но работает для касаний */
-            background-color: transparent; 
-            touch-action: none; /* Отключает скролл страницы при касании этого элемента */
-        }
-
-        /* Визуальная линия при наведении или перетаскивании */
-        .resizer::after {
-            content: "";
-            position: absolute;
-            right: 50%; /* Линия ровно по центру зоны захвата (по границе ячейки) */
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: #cbd5e1; /* slate-300 */
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .resizer:hover::after, .resizer.resizing::after {
-            opacity: 1;
-            background-color: #3b82f6; /* Blue-500 */
         }
     </style>
 </head>
@@ -64,7 +27,7 @@
     </div>
 
     <div class="container mx-auto px-4 py-8 max-w-5xl">
-        
+
         <!-- Header -->
         <div class="text-center mb-8 pt-6">
             <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
@@ -76,15 +39,15 @@
         <!-- Input Form -->
         <div class="bg-white rounded-xl shadow-lg p-6 mb-8 border border-slate-200">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                
+
                 <!-- Repo Input -->
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1" data-i18n="repoLabel">Repository (owner/repo)</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1" data-i18n="repoLabel">Repository (owner/repo or URL)</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                             <i class="fas fa-book"></i>
                         </span>
-                        <input type="text" id="repoInput" placeholder="electron/electron" 
+                        <input type="text" id="repoInput" placeholder="electron/electron"
                             class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                     </div>
                 </div>
@@ -92,20 +55,20 @@
                 <!-- Token Input -->
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">
-                        <span data-i18n="tokenLabel">GitHub API Token</span> 
+                        <span data-i18n="tokenLabel">GitHub API Token</span>
                         <span class="text-xs text-slate-400" data-i18n="optional">(optional)</span>
                     </label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
                             <i class="fas fa-key"></i>
                         </span>
-                        <input type="password" id="tokenInput" placeholder="ghp_..." 
+                        <input type="password" id="tokenInput" placeholder="ghp_..."
                             class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
                     </div>
                 </div>
             </div>
 
-            <button onclick="getStats()" 
+            <button onclick="getStats()"
                 class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2 shadow-md">
                 <i class="fas fa-search"></i> <span data-i18n="btnSearch">Get Statistics</span>
             </button>
@@ -139,7 +102,7 @@
             en: {
                 title: "Download Stats",
                 subtitle: "View GitHub Releases statistics",
-                repoLabel: "Repository (owner/repo)",
+                repoLabel: "Repository (owner/repo or URL)",
                 tokenLabel: "GitHub API Token",
                 optional: "(optional, increases rate limit)",
                 btnSearch: "Get Statistics",
@@ -151,17 +114,17 @@
                 colFile: "File Name",
                 colSize: "Size",
                 colDownloads: "Downloads",
-                errFormat: "Please enter repo in format owner/repo",
+                errFormat: "Invalid format. Use 'owner/repo' or a GitHub URL.",
                 err404: "Repository not found.",
                 err401: "Invalid API Token or unauthorized.",
                 err403: "API Rate limit exceeded. Please use a Token.",
                 errGeneric: "API Error: ",
-                langBtn: "RU" 
+                langBtn: "RU"
             },
             ru: {
                 title: "Статистика загрузок",
                 subtitle: "Просмотр статистики GitHub Releases",
-                repoLabel: "Репозиторий (owner/repo)",
+                repoLabel: "Репозиторий (owner/repo или ссылка)",
                 tokenLabel: "GitHub API Token",
                 optional: "(опционально, для лимитов)",
                 btnSearch: "Получить статистику",
@@ -173,7 +136,7 @@
                 colFile: "Имя файла",
                 colSize: "Размер",
                 colDownloads: "Скачиваний",
-                errFormat: "Введите репозиторий в формате owner/repo",
+                errFormat: "Неверный формат. Используйте 'owner/repo' или ссылку.",
                 err404: "Репозиторий не найден.",
                 err401: "Неверный токен или нет доступа.",
                 err403: "Превышен лимит запросов. Используйте токен.",
@@ -192,22 +155,36 @@
             const savedToken = localStorage.getItem('gh_stats_token');
             const savedLang = localStorage.getItem('gh_stats_lang');
 
-            if (savedRepo) document.getElementById('repoInput').value = savedRepo;
+            // Handle URL parameters (e.g. ?repo=owner/repo)
+            const urlParams = new URLSearchParams(window.location.search);
+            const repoFromUrl = urlParams.get('repo');
+
+            if (repoFromUrl) {
+                document.getElementById('repoInput').value = repoFromUrl;
+            } else if (savedRepo) {
+                document.getElementById('repoInput').value = savedRepo;
+            }
+
             if (savedToken) document.getElementById('tokenInput').value = savedToken;
-            
+
             // Only use saved lang if it exists, otherwise strict default is EN
             if (savedLang && (savedLang === 'en' || savedLang === 'ru')) {
                 currentLang = savedLang;
             }
 
             applyLanguage();
+
+            // Auto-search if repo is provided in URL
+            if (repoFromUrl) {
+                getStats();
+            }
         });
 
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'ru' : 'en';
             localStorage.setItem('gh_stats_lang', currentLang);
             applyLanguage();
-            
+
             // Re-render strings if results exist
             const resultsContent = document.getElementById('results').innerHTML;
             if (resultsContent !== "") {
@@ -219,13 +196,13 @@
         function applyLanguage() {
             const t = translations[currentLang];
             document.getElementById('langLabel').textContent = t.langBtn;
-            
+
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (t[key]) el.textContent = t[key];
             });
 
-            document.getElementById('repoInput').placeholder = currentLang === 'ru' ? 'пример: electron/electron' : 'e.g. electron/electron';
+            document.getElementById('repoInput').placeholder = currentLang === 'ru' ? 'пример: electron/electron или ссылка' : 'e.g. electron/electron or URL';
         }
 
         function formatBytes(bytes, decimals = 2) {
@@ -243,24 +220,39 @@
         }
 
         async function getStats() {
-            const repo = document.getElementById('repoInput').value.trim();
+            let rawRepo = document.getElementById('repoInput').value.trim();
             const token = document.getElementById('tokenInput').value.trim();
             const t = translations[currentLang];
-            
+
             const resultsDiv = document.getElementById('results');
             const loader = document.getElementById('loader');
             const errorBox = document.getElementById('errorBox');
 
             resultsDiv.innerHTML = '';
             errorBox.classList.add('hidden');
-            
-            if (!repo || !repo.includes('/')) {
+
+            // --- URL Parsing Logic ---
+            // Remove trailing slashes and .git extension
+            rawRepo = rawRepo.replace(/\/$/, "").replace(/\.git$/, "");
+
+            // Extract owner/repo if full URL is provided
+            // Regex matches "github.com/" followed by "owner/repo"
+            const urlMatch = rawRepo.match(/github\.com\/([^\/]+\/[^\/]+)/);
+            const repo = urlMatch ? urlMatch[1] : rawRepo;
+
+            // Validate format (must contain exactly one slash)
+            if (!repo || repo.split('/').length !== 2) {
                 showError(t.errFormat);
                 return;
             }
 
-            localStorage.setItem('gh_stats_repo', repo);
+            localStorage.setItem('gh_stats_repo', rawRepo); // Save what user typed
             localStorage.setItem('gh_stats_token', token);
+
+            // Update URL without reloading page (store just the clean repo name usually, but user input is fine too)
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('repo', repo);
+            window.history.pushState({}, '', newUrl);
 
             loader.classList.remove('hidden');
 
@@ -302,7 +294,7 @@
         function renderStats(releases, repoName) {
             const resultsDiv = document.getElementById('results');
             const t = translations[currentLang];
-            
+
             let totalDownloadsAll = 0;
             releases.forEach(rel => {
                 rel.assets.forEach(asset => totalDownloadsAll += asset.download_count);
@@ -331,23 +323,23 @@
                 let releaseTotal = 0;
                 release.assets.forEach(a => releaseTotal += a.download_count);
 
-                const isPrerelease = release.prerelease 
-                    ? `<span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 ml-2">Pre-release</span>` 
+                const isPrerelease = release.prerelease
+                    ? `<span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-800 border border-yellow-200 ml-2">Pre-release</span>`
                     : '';
 
                 let assetsHtml = '';
-                
+
                 if (release.assets.length > 0) {
                     assetsHtml = `
                         <div class="overflow-x-auto pb-2">
-                            <table class="w-full text-left border-collapse resizable-table" id="table-${index}">
+                            <table class="w-full text-left border-collapse" id="table-${index}">
                                 <thead>
                                     <tr class="text-xs text-slate-500 border-b border-slate-200 uppercase tracking-wider">
                                         <th class="py-3 pl-2 pr-4 font-medium w-1/2 relative bg-white min-w-[120px]">
-                                            ${t.colFile} <div class="resizer"></div>
+                                            ${t.colFile}
                                         </th>
                                         <th class="py-3 px-4 font-medium text-right w-1/4 relative bg-white min-w-[70px]">
-                                            ${t.colSize} <div class="resizer"></div>
+                                            ${t.colSize}
                                         </th>
                                         <th class="py-3 pl-4 pr-2 font-medium text-right w-1/4 relative bg-white min-w-[70px]">
                                             ${t.colDownloads}
@@ -397,72 +389,6 @@
                 `;
                 resultsDiv.innerHTML += releaseCard;
             });
-
-            initResize();
-        }
-
-        // --- Universal Resizable Columns Logic (Mouse + Touch) ---
-        function initResize() {
-            const tables = document.querySelectorAll('.resizable-table');
-            
-            tables.forEach(table => {
-                const cols = table.querySelectorAll('th');
-                cols.forEach(col => {
-                    const resizer = col.querySelector('.resizer');
-                    if (!resizer) return;
-
-                    createResizableColumn(col, resizer);
-                });
-            });
-        }
-
-        function createResizableColumn(col, resizer) {
-            let x = 0;
-            let w = 0;
-
-            // Universal Start Handler (Mouse or Touch)
-            const startHandler = function (e) {
-                // Get X coordinate from mouse or first touch
-                x = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
-                
-                // Get current width
-                const styles = window.getComputedStyle(col);
-                w = parseInt(styles.width, 10);
-
-                resizer.classList.add('resizing');
-
-                if (e.type === 'touchstart') {
-                    document.addEventListener('touchmove', moveHandler, { passive: false });
-                    document.addEventListener('touchend', endHandler);
-                } else {
-                    document.addEventListener('mousemove', moveHandler);
-                    document.addEventListener('mouseup', endHandler);
-                }
-            };
-
-            // Universal Move Handler
-            const moveHandler = function (e) {
-                // Prevent scrolling while dragging on mobile
-                if(e.type === 'touchmove') e.preventDefault(); 
-                
-                const clientX = (e.type === 'touchmove') ? e.touches[0].clientX : e.clientX;
-                const dx = clientX - x;
-                col.style.width = `${w + dx}px`;
-            };
-
-            // Universal End Handler
-            const endHandler = function (e) {
-                resizer.classList.remove('resizing');
-                
-                // Clean up events
-                document.removeEventListener('mousemove', moveHandler);
-                document.removeEventListener('mouseup', endHandler);
-                document.removeEventListener('touchmove', moveHandler);
-                document.removeEventListener('touchend', endHandler);
-            };
-
-            resizer.addEventListener('mousedown', startHandler);
-            resizer.addEventListener('touchstart', startHandler, { passive: false });
         }
     </script>
 </body>
